@@ -57,7 +57,7 @@ public class WindowMain extends JFrame {
 		
 		setTitle("START - aplikacja bazodanowa");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 467, 364);
+		setBounds(100, 100, 705, 460);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -107,22 +107,52 @@ public class WindowMain extends JFrame {
 		});
 		
 		
-		// przycisk: po³¹cz z BD
-		JButton btnPoczZBd = new JButton("Po\u0142\u0105cz z BD");
-		btnPoczZBd.addActionListener(new ActionListener() {
+		
+		
+		final JButton btnDisplayTrainers = new JButton("Wy\u015Bwietl trener\u00F3w");
+		btnDisplayTrainers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				dataBase.getDBConnection();
-				if(dataBase.isConnected())
-				{
-					btnSQLStatement.setEnabled(true);
-					btnNewSection.setEnabled(true);
-					btnNewTrainer.setEnabled(true);
-					
-					//btn
-				}
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							WindowsDisplayTrainers frame = new WindowsDisplayTrainers(dataBase);
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 			}
 		});
+		btnDisplayTrainers.setEnabled(false);
 		
+		// przycisk: po³¹cz z BD
+				JButton btnPoczZBd = new JButton("Po\u0142\u0105cz z BD");
+				btnPoczZBd.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						
+								try {
+									DialogSession frame = new DialogSession(dataBase);
+									frame.setVisible(true);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							
+								
+						if(dataBase.isConnected())
+						{
+							
+							btnSQLStatement.setEnabled(true);
+							btnNewSection.setEnabled(true);
+							btnNewTrainer.setEnabled(true);
+							btnDisplayTrainers.setEnabled(true);
+							
+							
+						}
+					}
+				});
+				
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -130,33 +160,35 @@ public class WindowMain extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(48)
-							.addComponent(btnSQLStatement, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-							.addGap(83)
+							.addContainerGap()
 							.addComponent(btnNewSection, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(131)
-							.addComponent(btnPoczZBd, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(139)
-							.addComponent(btnNewTrainer, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(54, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(btnPoczZBd, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(btnSQLStatement, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
+								.addComponent(btnDisplayTrainers))
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(btnNewTrainer, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(22)
-					.addComponent(btnPoczZBd, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addGap(40)
+					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnPoczZBd, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSQLStatement, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewSection, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-					.addGap(49)
+						.addComponent(btnDisplayTrainers, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE))
+					.addGap(35)
+					.addComponent(btnNewSection, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+					.addGap(27)
 					.addComponent(btnNewTrainer, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(56, Short.MAX_VALUE))
+					.addContainerGap(184, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
-	
-	
 }

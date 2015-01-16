@@ -68,7 +68,7 @@ public class WindowTrainer extends JFrame {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005"}));
 		
 		final JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Stycze\u0144", "Luty", "Marzec", "Maj", "Kwiecie\u0144", "Maj", "Czerwiec", "Lipiec", "Sierpie\u0144", "Wrzesie\u0144", "Pa\u017Adziernik", "Listopad", "Grudzie\u0144"}));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Stycze\u0144", "Luty", "Marzec", "Kwiecie\u0144", "Maj", "Czerwiec", "Lipiec", "Sierpie\u0144", "Wrzesie\u0144", "Pa\u017Adziernik", "Listopad", "Grudzie\u0144"}));
 		
 		final JComboBox comboBox_2 = new JComboBox();
 		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
@@ -86,20 +86,9 @@ public class WindowTrainer extends JFrame {
 				month = 0;
 				year = Integer.valueOf((String)comboBox.getSelectedItem());
 				year -= 1900;
-				String month_s = comboBox_1.getSelectedItem().toString();
-				if(month_s == "Stycze\u0144" ) month = 0;
-				if(month_s == "Luty" ) month = 1;
-				if(month_s == "Marzec" ) month = 2;
-				if(month_s == "Kwiecie\u0144" ) month = 3;
-				if(month_s == "Maj" ) month = 4;
-				if(month_s == "Czerwiec" ) month = 5;
-				if(month_s == "Lipiec" ) month = 6;
-				if(month_s == "Sierpie\u0144" ) month = 7;
-				if(month_s == "Wrzesie\u0144" ) month = 8;
-				if(month_s == "Pa\u017Adziernik" ) month = 9;
-				if(month_s == "Listopad" ) month = 10;
-				if(month_s == "Grudzie\u0144" ) month = 11;
+		
 				
+				month = comboBox_1.getSelectedIndex();
 				day = Integer.valueOf((String)comboBox_2.getSelectedItem());
 				
 				
