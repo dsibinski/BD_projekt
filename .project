@@ -14,4 +14,21 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>Resources/button_trainer.png</name>
+			<type>1</type>
+			<location>D:/Eclipse_workspace/StartWroclawDB/Resources/button_trainer.png</location>
+		</link>
+		<link>
+			<name>Resources/logo.png</name>
+			<type>1</type>
+			<location>D:/Eclipse_workspace/StartWroclawDB/logo.png</location>
+		</link>
+		<link>
+			<name>Resources/logo_main.PNG</name>
+			<type>1</type>
+			<location>D:/Eclipse_workspace/StartWroclawDB/Resources/logo_main.PNG</location>
+		</link>
+	</linkedResources>
 </projectDescription>

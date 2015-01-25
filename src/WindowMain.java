@@ -23,41 +23,54 @@ import java.util.Scanner;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Toolkit;
+import javax.swing.JLabel;
+import net.miginfocom.swing.MigLayout;
+import java.awt.Font;
+import java.awt.SystemColor;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JMenu;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 
 public class WindowMain extends JFrame {
 
 	private JPanel contentPane;
-	public static DataBase dataBase;
-    
-
-    public static void main(String[] argv) {
-    	dataBase = new DataBase();
-    	
-    	EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WindowMain frame = new WindowMain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-    	
-    	
-    }
-    
-    
-
+	
 	/**
 	 * Create the frame.
 	 */
-	public WindowMain() {
+	public WindowMain(DataBase _dataBase) {
+		dataBase = _dataBase;
+		setIconImage(Toolkit.getDefaultToolkit().getImage(WindowMain.class.getResource("/Resources/logo.png")));
 		
-		setTitle("START - aplikacja bazodanowa");
+		setTitle("START - Administracja");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 705, 460);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnPlik = new JMenu("Plik");
+		menuBar.add(mnPlik);
+		
+		JMenuItem mntmZakocz = new JMenuItem("Zako\u0144cz");
+		mntmZakocz.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		mnPlik.add(mntmZakocz);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -93,25 +106,14 @@ public class WindowMain extends JFrame {
 		btnNewTrainer.setEnabled(false);
 		btnNewTrainer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							WindowTrainer frame = new WindowTrainer(dataBase);
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+			
 			}
 		});
 		
-		
-		
-		
-		final JButton btnDisplayTrainers = new JButton("Wy\u015Bwietl trener\u00F3w");
-		btnDisplayTrainers.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JButton btnZarzdzajTrenerami = new JButton("Zarz\u0105dzaj trenerami");
+		btnZarzdzajTrenerami.setToolTipText("");
+		btnZarzdzajTrenerami.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
@@ -124,71 +126,127 @@ public class WindowMain extends JFrame {
 				});
 			}
 		});
-		btnDisplayTrainers.setEnabled(false);
 		
-		// przycisk: po³¹cz z BD
-				JButton btnPoczZBd = new JButton("Po\u0142\u0105cz z BD");
-				btnPoczZBd.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						
-						
-								try {
-									DialogSession frame = new DialogSession(dataBase);
-									frame.setVisible(true);
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-							
-								
-						if(dataBase.isConnected())
-						{
-							
-							btnSQLStatement.setEnabled(true);
-							btnNewSection.setEnabled(true);
-							btnNewTrainer.setEnabled(true);
-							btnDisplayTrainers.setEnabled(true);
-							
-							
-						}
-					}
-				});
-				
+		JLabel lbl_loggedass = new JLabel("Zalogowany jako: ");
+		lbl_loggedass.setBackground(SystemColor.activeCaption);
+		lbl_loggedass.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JButton btnZarzdzajZawodnikami = new JButton("Zarz\u0105dzaj zawodnikami");
+		
+		JButton btnZarzdzajSekcjami = new JButton("Zarz\u0105dzaj sekcjami");
+		
+		JButton btnZarzdzajOrzeczeniami = new JButton("Zarz\u0105dzaj orzeczeniami");
+		
+		JButton btnZarzdzajSkadkami = new JButton("Zarz\u0105dzaj sk\u0142adkami");
+		
+		JButton btnZarzdzajPatnociami = new JButton("Zarz\u0105dzaj p\u0142atno\u015Bciami");
+		
+		JButton btnZarzdzajSprawozdaniami = new JButton("Zarz\u0105dzaj sprawozdaniami");
+		
+		JButton btnZarzdzajTreningami = new JButton("Zarz\u0105dzaj treningami");
+		
+		JButton btnZarzdzajTrofeami = new JButton("Zarz\u0105dzaj trofeami");
+		
+		JButton btnZarzdzajZawodami = new JButton("Zarz\u0105dzaj zawodami");
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnNewSection, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lbl_loggedass)
+						.addComponent(btnNewTrainer, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSQLStatement, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnZarzdzajSprawozdaniami)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnNewSection, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(btnPoczZBd, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(btnSQLStatement, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
-								.addComponent(btnDisplayTrainers))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(btnNewTrainer, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap())
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(btnZarzdzajOrzeczeniami, 0, 0, Short.MAX_VALUE)
+								.addComponent(btnZarzdzajZawodnikami, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+								.addComponent(btnZarzdzajTrenerami, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnZarzdzajSekcjami, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnZarzdzajZawodami)
+								.addComponent(btnZarzdzajTrofeami)
+								.addComponent(btnZarzdzajTreningami)))
+						.addComponent(btnZarzdzajSkadkami)
+						.addComponent(btnZarzdzajPatnociami))
+					.addGap(128))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnPoczZBd, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(7)
+							.addComponent(lbl_loggedass, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnZarzdzajTreningami)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(14)
+									.addComponent(btnNewSection, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnZarzdzajTrofeami)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnZarzdzajZawodami))))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(43)
+							.addComponent(btnZarzdzajTrenerami, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(btnZarzdzajZawodnikami)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnNewTrainer, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnZarzdzajSekcjami))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnSQLStatement, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnDisplayTrainers, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE))
-					.addGap(35)
-					.addComponent(btnNewSection, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addGap(27)
-					.addComponent(btnNewTrainer, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(184, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(btnZarzdzajOrzeczeniami)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnZarzdzajSkadkami)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnZarzdzajPatnociami)))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnZarzdzajSprawozdaniami)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		lbl_loggedass.setText("Zalogowany jako: " + dataBase.getUsername());
 		contentPane.setLayout(gl_contentPane);
+		
+		if(dataBase.isConnected())
+		{
+			
+			btnSQLStatement.setEnabled(true);
+			btnNewSection.setEnabled(true);
+			btnNewTrainer.setEnabled(true);
+			
+			
+			
+		}
+	}
+	DataBase dataBase;
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }

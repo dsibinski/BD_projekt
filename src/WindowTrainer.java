@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.awt.Toolkit;
 
 
 public class WindowTrainer extends JFrame {
@@ -39,6 +40,7 @@ public class WindowTrainer extends JFrame {
 	 * Create the frame.
 	 */
 	public WindowTrainer(DataBase _dataBase) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(WindowTrainer.class.getResource("/Resources/logo.png")));
 		dataBase = _dataBase;
 		setTitle("Dodawanie trenera");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);

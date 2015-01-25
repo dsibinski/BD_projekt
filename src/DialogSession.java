@@ -3,6 +3,8 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
@@ -11,9 +13,11 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Dialog.ModalityType;
+import java.awt.Toolkit;
 
 
 public class DialogSession extends JDialog {
@@ -30,6 +34,7 @@ public class DialogSession extends JDialog {
 	 * Create the dialog.
 	 */
 	public DialogSession(DataBase _dataBase) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogSession.class.getResource("/Resources/logo.png")));
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		dataBase = _dataBase;
 		setTitle("Logowanie");
@@ -88,7 +93,20 @@ public class DialogSession extends JDialog {
 						password = passwordField.getText();
 						dataBase.getDBConnection(username, password);
 						if(dataBase.isConnected())
+						{
 							dispose();
+							WindowMain frame = new WindowMain(dataBase);
+							frame.setVisible(true);
+						}
+						
+						else
+						{
+							final JOptionPane info = new JOptionPane("B³êdne dane logowania! Spróbuj ponownie.");
+							final JDialog dialog = info.createDialog((JFrame)null, "Odmowa dostêpu");
+							dialog.setLocationRelativeTo(contentPanel);
+							dialog.setVisible(true);
+						}
+							
 						
 						
 						

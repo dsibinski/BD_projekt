@@ -12,6 +12,10 @@ import java.sql.Date;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class DataBase {
 	private static final String DB_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private static final String DB_CONNECTION = "jdbc:oracle:thin:@localhost:1521/XE";
@@ -20,8 +24,14 @@ public class DataBase {
 	private static Connection dbConnection = null;
 	private static Boolean connected = false;
 
+
 	protected boolean isConnected() {
 		return connected;
+	}
+	
+	protected String getUsername()
+	{
+		return DB_USER;
 	}
 
 	protected void SQLStatement() throws SQLException {
@@ -95,7 +105,7 @@ public class DataBase {
 
 		Statement statement = null;
 
-		String selectTableSQL = "INSERT INTO Sekcje (id_sekcji, nazwa, trener) VALUES (SEKCJE_ID_SEQ.NEXTVAL,"
+		String selectTableSQL = "INSERT INTO STARTWROCLAW.Sekcje (id_sekcji, nazwa, trener) VALUES (SEKCJE_ID_SEQ.NEXTVAL,"
 				+ "'" + nazwa + "'" + "," + trener + ")";
 
 		Console cons = null;
@@ -145,8 +155,8 @@ public class DataBase {
 
 		Statement statement = null;
 
-		String selectTableSQL = "INSERT INTO TRENERZY (ID_TRENERA, IMIE, NAZWISKO, PESEL, DATA_URODZENIA) "
-				+ "VALUES (TRENERZY_ID_SEQ.NEXTVAL, '"
+		String selectTableSQL = "INSERT INTO STARTWROCLAW.TRENERZY (ID_TRENERA, IMIE, NAZWISKO, PESEL, DATA_URODZENIA) "
+				+ "VALUES (STARTWROCLAW.TRENERZY_ID_SEQ.NEXTVAL, '"
 				+ imie
 				+ "', '"
 				+ nazwisko + "', " + PESEL + ", '" + data_urodzenia + "')";
@@ -225,9 +235,6 @@ public class DataBase {
 														// incorrect credentials
 			{
 				connected = false;
-				System.out
-						.println("B£ÊDNE DANE LOGOWANIA. Sprobuj jeszcze raz.");
-
 			}
 
 		}
@@ -236,12 +243,14 @@ public class DataBase {
 
 	}
 
+	
+	
 	protected Vector<Vector> getTrainersList() {
 		Vector<Vector> rows = new Vector<Vector>();
 
 		Statement statement = null;
 
-		String selectTableSQL = "SELECT * FROM TRENERZY";
+		String selectTableSQL = "SELECT * FROM STARTWROCLAW.TRENERZY";
 
 		try {
 
