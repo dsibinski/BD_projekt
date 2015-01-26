@@ -51,12 +51,13 @@ public class WindowMain extends JFrame {
 	 * Create the frame.
 	 */
 	public WindowMain(DataBase _dataBase) {
+		setResizable(false);
 		dataBase = _dataBase;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(WindowMain.class.getResource("/Resources/logo.png")));
 		
 		setTitle("START - Administracja");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 705, 460);
+		setBounds(100, 100, 505, 460);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -74,41 +75,6 @@ public class WindowMain extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
-		final JButton btnNewSection = new JButton("Nowa sekcja");
-		btnNewSection.setEnabled(false);
-		btnNewSection.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					dataBase.NewSection();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		});
-		
-		final JButton btnSQLStatement = new JButton("Polecenie SQL");
-		btnSQLStatement.setEnabled(false);
-		btnSQLStatement.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					dataBase.SQLStatement();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		
-		final JButton btnNewTrainer = new JButton("Nowy trener");
-		btnNewTrainer.setEnabled(false);
-		btnNewTrainer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			
-			}
-		});
 		
 		JButton btnZarzdzajTrenerami = new JButton("Zarz\u0105dzaj trenerami");
 		btnZarzdzajTrenerami.setToolTipText("");
@@ -134,6 +100,22 @@ public class WindowMain extends JFrame {
 		JButton btnZarzdzajZawodnikami = new JButton("Zarz\u0105dzaj zawodnikami");
 		
 		JButton btnZarzdzajSekcjami = new JButton("Zarz\u0105dzaj sekcjami");
+		btnZarzdzajSekcjami.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							WindowSection frame = new WindowSection(dataBase);
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				
+			}
+		});
 		
 		JButton btnZarzdzajOrzeczeniami = new JButton("Zarz\u0105dzaj orzeczeniami");
 		
@@ -155,67 +137,54 @@ public class WindowMain extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewSection, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lbl_loggedass)
-						.addComponent(btnNewTrainer, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSQLStatement, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(btnZarzdzajSkadkami, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btnZarzdzajSekcjami, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btnZarzdzajZawodnikami, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btnZarzdzajTrenerami, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)))
+					.addGap(1)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnZarzdzajSprawozdaniami)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(btnZarzdzajOrzeczeniami, 0, 0, Short.MAX_VALUE)
-								.addComponent(btnZarzdzajZawodnikami, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-								.addComponent(btnZarzdzajTrenerami, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnZarzdzajSekcjami, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnZarzdzajZawodami)
-								.addComponent(btnZarzdzajTrofeami)
-								.addComponent(btnZarzdzajTreningami)))
-						.addComponent(btnZarzdzajSkadkami)
-						.addComponent(btnZarzdzajPatnociami))
-					.addGap(128))
+						.addComponent(btnZarzdzajZawodami, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(btnZarzdzajPatnociami, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btnZarzdzajTrofeami, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(btnZarzdzajTreningami, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED))))
+					.addGap(183)
+					.addComponent(btnZarzdzajOrzeczeniami, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
+					.addGap(246))
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addGap(125)
+					.addComponent(btnZarzdzajSprawozdaniami)
+					.addContainerGap(549, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(7)
-							.addComponent(lbl_loggedass, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnZarzdzajTreningami)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(14)
-									.addComponent(btnNewSection, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnZarzdzajTrofeami)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnZarzdzajZawodami))))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(43)
-							.addComponent(btnZarzdzajTrenerami, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(btnZarzdzajZawodnikami)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewTrainer, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnZarzdzajSekcjami))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnSQLStatement, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnZarzdzajOrzeczeniami)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnZarzdzajSkadkami)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnZarzdzajPatnociami)))
+					.addContainerGap()
+					.addComponent(lbl_loggedass, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnZarzdzajSprawozdaniami)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnZarzdzajTrenerami, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnZarzdzajTreningami, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE))
+					.addGap(7)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnZarzdzajZawodnikami, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnZarzdzajTrofeami, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnZarzdzajSekcjami, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnZarzdzajZawodami, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnZarzdzajSkadkami, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnZarzdzajOrzeczeniami)
+							.addComponent(btnZarzdzajPatnociami, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)))
+					.addGap(11)
+					.addComponent(btnZarzdzajSprawozdaniami, GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
 		);
 		lbl_loggedass.setText("Zalogowany jako: " + dataBase.getUsername());
 		contentPane.setLayout(gl_contentPane);
@@ -223,9 +192,7 @@ public class WindowMain extends JFrame {
 		if(dataBase.isConnected())
 		{
 			
-			btnSQLStatement.setEnabled(true);
-			btnNewSection.setEnabled(true);
-			btnNewTrainer.setEnabled(true);
+			// ustawianie klawiszy (enabled)
 			
 			
 			

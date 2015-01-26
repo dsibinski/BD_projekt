@@ -40,6 +40,7 @@ public class WindowTrainer extends JFrame {
 	 * Create the frame.
 	 */
 	public WindowTrainer(DataBase _dataBase) {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(WindowTrainer.class.getResource("/Resources/logo.png")));
 		dataBase = _dataBase;
 		setTitle("Dodawanie trenera");
@@ -67,7 +68,7 @@ public class WindowTrainer extends JFrame {
 		JLabel lblDataUrodzeniaRmd = new JLabel("Data urodzenia R/M/D");
 		
 		final JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1942", "1941", "1942", "1943", "1944", "1945", "1946", "1947", "1948", "1949", "1950", "1951", "1952", "1953", "1954", "1955", "1956", "1957", "1958", "1959", "1960", "1961", "1962", "1963", "1964", "1965", "1966", "1967", "1968", "1969", "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005"}));
 		
 		final JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Stycze\u0144", "Luty", "Marzec", "Kwiecie\u0144", "Maj", "Czerwiec", "Lipiec", "Sierpie\u0144", "Wrzesie\u0144", "Pa\u017Adziernik", "Listopad", "Grudzie\u0144"}));

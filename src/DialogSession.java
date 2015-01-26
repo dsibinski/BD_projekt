@@ -34,6 +34,7 @@ public class DialogSession extends JDialog {
 	 * Create the dialog.
 	 */
 	public DialogSession(DataBase _dataBase) {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogSession.class.getResource("/Resources/logo.png")));
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		dataBase = _dataBase;

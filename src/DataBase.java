@@ -250,7 +250,7 @@ public class DataBase {
 
 		Statement statement = null;
 
-		String selectTableSQL = "SELECT * FROM STARTWROCLAW.TRENERZY";
+		String selectTableSQL = "SELECT * FROM STARTWROCLAW.TRENERZY ORDER BY NAZWISKO";
 
 		try {
 
@@ -272,12 +272,18 @@ public class DataBase {
 					String surname = rs.getString("NAZWISKO");
 					String PESEL = rs.getString("PESEL");
 					String DATA_URODZENIA = rs.getString("DATA_URODZENIA");
+					String ADRES = rs.getString("ADRES");
+					String NR_TELEFONU = rs.getString("NR_TELEFONU");
+					String EMAIL = rs.getString("EMAIL");
 					DATA_URODZENIA = DATA_URODZENIA.substring(0, 10); // delete hour from data
 					
 					columns.add(name);
 					columns.add(surname);
 					columns.add(PESEL);
 					columns.add(DATA_URODZENIA);
+					columns.add(ADRES);
+					columns.add(NR_TELEFONU);
+					columns.add(EMAIL);
 					rows.add(columns);
 
 				}
@@ -305,5 +311,185 @@ public class DataBase {
 		return rows;
 
 	}
+	
+	
+	protected Vector<Vector> getSectionsList() {
+		Vector<Vector> rows = new Vector<Vector>();
+
+		Statement statement = null;
+
+		String selectTableSQL = "SELECT * FROM STARTWROCLAW.SEKCJE ORDER BY NAZWA";
+
+		try {
+
+			if (connected) {
+
+				statement = dbConnection.createStatement();
+
+				System.out.println(selectTableSQL);
+
+				// execute select SQL statement
+				ResultSet rs = statement.executeQuery(selectTableSQL);
+
+				while (rs.next()) {
+
+					Vector<String> columns = new Vector<String>();
+
+					
+					String name = rs.getString("NAZWA");
+					String trainer_id = rs.getString("TRENER");
+					
+					columns.add(name);
+					columns.add(trainer_id);
+					rows.add(columns);
+
+				}
+
+				System.out.println("Zapytanie wykonane poprawnie.");
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		} finally {
+
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		return rows;
+
+	}
+	
+	
+	protected  void updateTrainers(Vector<Vector> rows) {
+		
+
+		Statement statement = null;
+
+		String selectTableSQL = "SELECT * FROM STARTWROCLAW.TRENERZY ORDER BY NAZWISKO";
+
+		try {
+
+			if (connected) {
+
+				statement = dbConnection.createStatement();
+
+				System.out.println(selectTableSQL);
+
+				// execute select SQL statement
+				ResultSet rs = statement.executeQuery(selectTableSQL);
+
+				while (rs.next()) {
+
+					Vector<String> columns = new Vector<String>();
+
+					
+					String name = rs.getString("IMIE");
+					String surname = rs.getString("NAZWISKO");
+					String PESEL = rs.getString("PESEL");
+					String DATA_URODZENIA = rs.getString("DATA_URODZENIA");
+					String ADRES = rs.getString("ADRES");
+					String NR_TELEFONU = rs.getString("NR_TELEFONU");
+					String EMAIL = rs.getString("EMAIL");
+					DATA_URODZENIA = DATA_URODZENIA.substring(0, 10); // delete hour from data
+					
+					columns.add(name);
+					columns.add(surname);
+					columns.add(PESEL);
+					columns.add(DATA_URODZENIA);
+					columns.add(ADRES);
+					columns.add(NR_TELEFONU);
+					columns.add(EMAIL);
+					rows.add(columns);
+
+				}
+
+				System.out.println("Zapytanie wykonane poprawnie.");
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		} finally {
+
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		
+
+	}
+	
+	protected boolean deleteTrainer(String _name, String _surname)
+	{
+		String name = _name;
+		String surname = _surname;
+		
+		Statement statement = null;
+
+		String selectTableSQL = "DELETE FROM STARTWROCLAW.TRENERZY WHERE IMIE = '" + name + "' "
+				+ "AND NAZWISKO = '" + surname + "'";
+
+		try {
+
+			if (connected) {
+
+				statement = dbConnection.createStatement();
+
+				System.out.println(selectTableSQL);
+
+				// execute select SQL statement
+				ResultSet rs = statement.executeQuery(selectTableSQL);
+
+				
+
+				System.out.println("Zapytanie wykonane poprawnie.");
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+			if(e.getMessage().contains("ORA-02292")) 
+
+			{
+				return false;
+				
+							
+			}
+
+		} finally {
+
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		return true;
+		
+	}
+	
 
 }

@@ -53,6 +53,7 @@ public class WindowWelcome extends JFrame {
 	 * Create the frame.
 	 */
 	public WindowWelcome() {
+		setResizable(false);
 		setTitle("START WROC\u0141AW");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(WindowWelcome.class.getResource("/Resources/logo.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
