@@ -148,18 +148,19 @@ public class DataBase {
 	 * @return returns no value
 	 */
 	protected void NewTrainer(String imie, String nazwisko, String PESEL,
-			Date data_urodzenia) throws SQLException {
+			Date data_urodzenia, String adres, String nr_telefonu, String email) throws SQLException {
 		Scanner input = new Scanner(System.in);
 
 		System.out.print("Imie: ");
 
 		Statement statement = null;
 
-		String selectTableSQL = "INSERT INTO STARTWROCLAW.TRENERZY (ID_TRENERA, IMIE, NAZWISKO, PESEL, DATA_URODZENIA) "
+		String selectTableSQL = "INSERT INTO STARTWROCLAW.TRENERZY (ID_TRENERA, IMIE, NAZWISKO, PESEL, DATA_URODZENIA, ADRES, NR_TELEFONU, EMAIL) "
 				+ "VALUES (STARTWROCLAW.TRENERZY_ID_SEQ.NEXTVAL, '"
 				+ imie
 				+ "', '"
-				+ nazwisko + "', " + PESEL + ", '" + data_urodzenia + "')";
+				+ nazwisko + "', " + PESEL + ", '" + data_urodzenia + "', '"
+				+ adres + "', " + nr_telefonu + ", '" + email + "')";
 
 		try {
 
@@ -318,7 +319,7 @@ public class DataBase {
 
 		Statement statement = null;
 
-		String selectTableSQL = "SELECT * FROM STARTWROCLAW.SEKCJE ORDER BY NAZWA";
+		String selectTableSQL = "SELECT s.NAZWA, t.IMIE, t.NAZWISKO FROM STARTWROCLAW.SEKCJE s, STARTWROCLAW.TRENERZY t WHERE s.trener = t.id_trenera ORDER BY NAZWA";
 
 		try {
 
@@ -337,10 +338,12 @@ public class DataBase {
 
 					
 					String name = rs.getString("NAZWA");
-					String trainer_id = rs.getString("TRENER");
+					String trainer_name = rs.getString("IMIE");
+					String trainer_surname = rs.getString("IMIE");
 					
+					String trainer_data = trainer_name + " " + trainer_surname;
 					columns.add(name);
-					columns.add(trainer_id);
+					columns.add(trainer_data);
 					rows.add(columns);
 
 				}
@@ -370,12 +373,14 @@ public class DataBase {
 	}
 	
 	
-	protected  void updateTrainers(Vector<Vector> rows) {
+	protected  void updateTrainers(String imie, String nazwisko, String PESEL, Date data_urodzenia, String adres, String nr_telefonu, String email, String PESEL_old) {
 		
 
 		Statement statement = null;
 
-		String selectTableSQL = "SELECT * FROM STARTWROCLAW.TRENERZY ORDER BY NAZWISKO";
+	 String selectTableSQL = "UPDATE STARTWROCLAW.TRENERZY SET IMIE = '" + imie + "', NAZWISKO='" + nazwisko + "', PESEL=" + PESEL + ", DATA_URODZENIA='" +
+	 data_urodzenia + "', ADRES='" + adres + "', NR_TELEFONU=" + nr_telefonu + ", EMAIL='" + email + "' WHERE PESEL=" + PESEL_old;
+	
 
 		try {
 
@@ -386,32 +391,9 @@ public class DataBase {
 				System.out.println(selectTableSQL);
 
 				// execute select SQL statement
-				ResultSet rs = statement.executeQuery(selectTableSQL);
+				statement.executeQuery(selectTableSQL);
 
-				while (rs.next()) {
-
-					Vector<String> columns = new Vector<String>();
-
-					
-					String name = rs.getString("IMIE");
-					String surname = rs.getString("NAZWISKO");
-					String PESEL = rs.getString("PESEL");
-					String DATA_URODZENIA = rs.getString("DATA_URODZENIA");
-					String ADRES = rs.getString("ADRES");
-					String NR_TELEFONU = rs.getString("NR_TELEFONU");
-					String EMAIL = rs.getString("EMAIL");
-					DATA_URODZENIA = DATA_URODZENIA.substring(0, 10); // delete hour from data
-					
-					columns.add(name);
-					columns.add(surname);
-					columns.add(PESEL);
-					columns.add(DATA_URODZENIA);
-					columns.add(ADRES);
-					columns.add(NR_TELEFONU);
-					columns.add(EMAIL);
-					rows.add(columns);
-
-				}
+			
 
 				System.out.println("Zapytanie wykonane poprawnie.");
 

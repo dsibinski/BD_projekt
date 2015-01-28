@@ -3,7 +3,9 @@ import java.awt.EventQueue;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -13,15 +15,21 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JLabel;
+
 import java.awt.FlowLayout;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
 import java.awt.Component;
 import java.awt.Dialog.ModalExclusionType;
+
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
+
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -100,6 +108,22 @@ public class WindowWelcome extends JFrame {
         btnNewButton.setBackground(SystemColor.info);
         
         JButton btnNewButton_1 = new JButton("O PROGRAMIE");
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		
+        		String info_txt = "Aplikacja wykonana na potrzeby projektu z Baz Danych 2 z wykorzystaniem JDBC. "
+        				+ "\nSemestr zimowy 2014/2015. \nDawid Sibiñski 200715 \nBart³ojmiej Grzegorek 200814 "
+        				+ "\nProwadz¹cy: dr in¿. Marek Piasecki \nPolitechnika Wroc³awska, Wydzia³ Elektroniki";
+        		
+        		final JOptionPane info = new JOptionPane(info_txt);
+				final JDialog dialog = info.createDialog((JFrame)null, "O programie");
+				dialog.setLocationRelativeTo(contentPane);
+				dialog.setVisible(true);
+				
+				
+        	}
+        });
         btnNewButton_1.setBackground(SystemColor.info);
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(

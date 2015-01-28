@@ -25,7 +25,7 @@ public class DialogSession extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JButton okButton;
 	private JButton cancelButton;
-	private JTextField textField;
+	private JTextField txtStartwroclaw;
 	private JPasswordField passwordField;
 
 	
@@ -47,10 +47,12 @@ public class DialogSession extends JDialog {
 			passwordField = new JPasswordField();
 		}
 		{
-			textField = new JTextField();
-			textField.setColumns(10);
+			txtStartwroclaw = new JTextField();
+			txtStartwroclaw.setText("STARTWROCLAW");
+			txtStartwroclaw.setColumns(10);
 		}
 		
+		passwordField.setText("polibuda8");
 		JLabel lblUytkownik = new JLabel("U\u017Cytkownik:");
 		
 		JLabel lblHaso = new JLabel("Has\u0142o:");
@@ -65,7 +67,7 @@ public class DialogSession extends JDialog {
 					.addGap(18)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
 						.addComponent(passwordField, Alignment.LEADING)
-						.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+						.addComponent(txtStartwroclaw, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_contentPanel.setVerticalGroup(
@@ -73,7 +75,7 @@ public class DialogSession extends JDialog {
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(24)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtStartwroclaw, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblUytkownik))
 					.addGap(15)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
@@ -90,7 +92,7 @@ public class DialogSession extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						String username, password;
-						username = textField.getText();
+						username = txtStartwroclaw.getText();
 						password = passwordField.getText();
 						dataBase.getDBConnection(username, password);
 						if(dataBase.isConnected())
@@ -98,6 +100,7 @@ public class DialogSession extends JDialog {
 							dispose();
 							WindowMain frame = new WindowMain(dataBase);
 							frame.setVisible(true);
+							
 						}
 						
 						else

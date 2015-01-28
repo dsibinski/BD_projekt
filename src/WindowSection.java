@@ -96,7 +96,7 @@ public class WindowSection extends JFrame {
 		
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add("Nazwa");
-		columnNames.add("ID Tremera");
+		columnNames.add("Trener");
 		
 		
 		table = new JTable(dataBase.getSectionsList(), columnNames);
@@ -115,7 +115,7 @@ public class WindowSection extends JFrame {
 	{
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add("Nazwa");
-		columnNames.add("ID Tremera");
+		columnNames.add("Trener");
 		
 		rows = dataBase.getSectionsList();
 		
