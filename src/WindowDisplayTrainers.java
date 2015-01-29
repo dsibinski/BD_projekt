@@ -40,7 +40,7 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class WindowsDisplayTrainers extends JFrame {
+public class WindowDisplayTrainers extends JFrame {
 
 	private JPanel contentPane;
 	TableRowSorter sorter;
@@ -51,12 +51,12 @@ public class WindowsDisplayTrainers extends JFrame {
 	
 	DefaultTableModel tableModel;
 	
-	public WindowsDisplayTrainers(DataBase _dataBase) {
+	public WindowDisplayTrainers(DataBase _dataBase) {
 		
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(
-						WindowsDisplayTrainers.class
+						WindowDisplayTrainers.class
 								.getResource("/Resources/logo.png")));
 		setTitle("Trenerzy");
 		dataBase = _dataBase;

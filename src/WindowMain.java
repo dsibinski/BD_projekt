@@ -57,7 +57,7 @@ public class WindowMain extends JFrame {
 		
 		setTitle("START - Administracja");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 505, 460);
+		setBounds(100, 100, 502, 399);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -83,7 +83,7 @@ public class WindowMain extends JFrame {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							WindowsDisplayTrainers frame = new WindowsDisplayTrainers(dataBase);
+							WindowDisplayTrainers frame = new WindowDisplayTrainers(dataBase);
 							frame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -106,7 +106,7 @@ public class WindowMain extends JFrame {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							WindowSection frame = new WindowSection(dataBase);
+							WindowDisplaySections frame = new WindowDisplaySections(dataBase);
 							frame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -123,8 +123,6 @@ public class WindowMain extends JFrame {
 		
 		JButton btnZarzdzajPatnociami = new JButton("Zarz\u0105dzaj p\u0142atno\u015Bciami");
 		
-		JButton btnZarzdzajSprawozdaniami = new JButton("Zarz\u0105dzaj sprawozdaniami");
-		
 		JButton btnZarzdzajTreningami = new JButton("Zarz\u0105dzaj treningami");
 		
 		JButton btnZarzdzajTrofeami = new JButton("Zarz\u0105dzaj trofeami");
@@ -133,7 +131,7 @@ public class WindowMain extends JFrame {
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -145,7 +143,7 @@ public class WindowMain extends JFrame {
 							.addComponent(btnZarzdzajTrenerami, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)))
 					.addGap(1)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnZarzdzajZawodami, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnZarzdzajZawodami, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 							.addComponent(btnZarzdzajPatnociami, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(btnZarzdzajTrofeami, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -155,10 +153,6 @@ public class WindowMain extends JFrame {
 					.addGap(183)
 					.addComponent(btnZarzdzajOrzeczeniami, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
 					.addGap(246))
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-					.addGap(125)
-					.addComponent(btnZarzdzajSprawozdaniami)
-					.addContainerGap(549, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -183,20 +177,40 @@ public class WindowMain extends JFrame {
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 							.addComponent(btnZarzdzajOrzeczeniami)
 							.addComponent(btnZarzdzajPatnociami, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)))
-					.addGap(11)
-					.addComponent(btnZarzdzajSprawozdaniami, GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
+					.addContainerGap(70, Short.MAX_VALUE))
 		);
 		lbl_loggedass.setText("Zalogowany jako: " + dataBase.getUsername());
 		contentPane.setLayout(gl_contentPane);
 		
-		if(dataBase.isConnected())
+		
+		/*
+		 * setting the users' privileges
+		 */
+		System.out.println("+"+dataBase.getUsername()+"+");
+		if(dataBase.getUsername().equals("TRENER"))
 		{
 			
-			// ustawianie klawiszy (enabled)
-			
-			
+			btnZarzdzajSekcjami.setEnabled(false);
+			btnZarzdzajSkadkami.setEnabled(false);
+			btnZarzdzajPatnociami.setEnabled(false);
+			btnZarzdzajZawodnikami.setEnabled(false);
+			btnZarzdzajTrenerami.setEnabled(false);
 			
 		}
+		
+		if(dataBase.getUsername().equals("KSIEGOWY"))
+		{
+			btnZarzdzajTrenerami.setEnabled(false);
+			btnZarzdzajSekcjami.setEnabled(false);
+			btnZarzdzajZawodnikami.setEnabled(false);
+			btnZarzdzajTreningami.setEnabled(false);
+			btnZarzdzajTrofeami.setEnabled(false);
+			btnZarzdzajZawodami.setEnabled(false);
+			
+		}
+		
+		
+		
 	}
 	DataBase dataBase;
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -216,4 +230,6 @@ public class WindowMain extends JFrame {
 			}
 		});
 	}
+	
+	
 }

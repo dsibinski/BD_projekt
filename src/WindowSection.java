@@ -4,21 +4,23 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java.awt.Toolkit;
+import java.util.Vector;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTable;
-import java.util.Vector;
-import java.awt.Toolkit;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
 
 
 public class WindowSection extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField txtNazwaSekcji;
 
 	/**
 	 * Launch the application.
@@ -29,118 +31,74 @@ public class WindowSection extends JFrame {
 	 * Create the frame.
 	 */
 	public WindowSection(DataBase _dataBase) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(WindowSection.class.getResource("/Resources/logo.png")));
-		setTitle("Sekcje");
 		dataBase = _dataBase;
-		rows = dataBase.getSectionsList();
 		
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 972, 498);
+		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(WindowSection.class.getResource("/Resources/logo.png")));
+		setTitle("Dodawanie sekcji");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 316, 206);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		scrollPane = new JScrollPane();
+		JLabel lblNazwaSekcji = new JLabel("Nazwa sekcji:");
 		
-		btnNowaSekcja = new JButton("Nowa sekcja");
+		txtNazwaSekcji = new JTextField();
+		txtNazwaSekcji.setColumns(10);
 		
-		btnZastosujZmiany = new JButton("Zastosuj zmiany");
+		JLabel lblTrener = new JLabel("Wybierz trenera:");
 		
-		lblUsuTrenera = new JLabel("Usu\u0144 trenera:");
+		JComboBox comboBox = new JComboBox();
 		
-		comboBox = new JComboBox();
+		JButton btnDodajTrenera = new JButton("Nowy trener");
 		
-		button = new JButton("Usu\u0144");
-		
-		button_1 = new JButton("Od\u015Bwie\u017C");
-		 gl_contentPane = new GroupLayout(contentPane);
+		JButton btnDodajSekcje = new JButton("Dodaj sekcj\u0119");
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(21)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 905, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnNowaSekcja)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnDodajSekcje, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNazwaSekcji)
+								.addComponent(lblTrener))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnZastosujZmiany)
-							.addPreferredGap(ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
-							.addComponent(lblUsuTrenera)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(button, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-							.addGap(29)
-							.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
-					.addGap(18))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(btnDodajTrenera, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(comboBox, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(txtNazwaSekcji, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))))
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(4)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 336, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNowaSekcja)
-						.addComponent(btnZastosujZmiany)
-						.addComponent(lblUsuTrenera)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(button)
-						.addComponent(button_1))
-					.addContainerGap(65, Short.MAX_VALUE))
+						.addComponent(lblNazwaSekcji)
+						.addComponent(txtNazwaSekcji, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblTrener)
+						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnDodajTrenera)
+					.addGap(18)
+					.addComponent(btnDodajSekcje, GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
 		);
 		
+		Vector<Vector> values = dataBase.getSectionsList();
 		
-		scrollPane.setColumnHeaderView(table);
-		contentPane.setLayout(gl_contentPane);
-		
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add("Nazwa");
-		columnNames.add("Trener");
-		
-		
-		table = new JTable(dataBase.getSectionsList(), columnNames);
-		scrollPane.setViewportView(table);
-		contentPane.setLayout(gl_contentPane);
-		comboBox.removeAllItems();
-		for (Vector v : rows)
+		// adds trainers' data to comboBox selections
+		for (Vector v : values)
 		{
-			comboBox.addItem(v.get(0) + " " + v.get(1) );
+			comboBox.addItem(v.elementAt(1));
 		}
 		
-		
-	}
-	
-	void refreshTable()
-	{
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add("Nazwa");
-		columnNames.add("Trener");
-		
-		rows = dataBase.getSectionsList();
-		
-		table = new JTable(rows, columnNames);
-		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
-		
-		
-		comboBox.removeAllItems();
-		for (Vector v : rows)
-		{
-			comboBox.addItem(v.get(0) + " " + v.get(1) );
-		}
 	}
-	
 	
 	DataBase dataBase;
-	private JTable table;
-	private JButton btnNowaSekcja;
-	private JButton btnZastosujZmiany;
-	private JLabel lblUsuTrenera;
-	GroupLayout gl_contentPane;
-	JScrollPane scrollPane;
-	private JComboBox comboBox;
-	private JButton button;
-	private JButton button_1;
-	Vector<Vector> rows;
 }

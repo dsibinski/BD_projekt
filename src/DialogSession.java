@@ -51,8 +51,6 @@ public class DialogSession extends JDialog {
 			txtStartwroclaw.setText("STARTWROCLAW");
 			txtStartwroclaw.setColumns(10);
 		}
-		
-		passwordField.setText("polibuda8");
 		JLabel lblUytkownik = new JLabel("U\u017Cytkownik:");
 		
 		JLabel lblHaso = new JLabel("Has\u0142o:");
@@ -145,6 +143,7 @@ public class DialogSession extends JDialog {
 							.addComponent(cancelButton)))
 			);
 			buttonPane.setLayout(gl_buttonPane);
+			passwordField.setText("polibuda8");
 		}
 	}
 	

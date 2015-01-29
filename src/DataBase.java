@@ -42,8 +42,7 @@ public class DataBase {
 
 		String selectTableSQL = "DROP TABLE Nowa";
 
-		Console cons = null;
-		cons = System.console(); // console object for reading the password
+		
 
 		try {
 
@@ -269,6 +268,7 @@ public class DataBase {
 					Vector<String> columns = new Vector<String>();
 
 					
+					
 					String name = rs.getString("IMIE");
 					String surname = rs.getString("NAZWISKO");
 					String PESEL = rs.getString("PESEL");
@@ -339,7 +339,7 @@ public class DataBase {
 					
 					String name = rs.getString("NAZWA");
 					String trainer_name = rs.getString("IMIE");
-					String trainer_surname = rs.getString("IMIE");
+					String trainer_surname = rs.getString("NAZWISKO");
 					
 					String trainer_data = trainer_name + " " + trainer_surname;
 					columns.add(name);
