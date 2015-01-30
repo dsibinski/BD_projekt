@@ -67,7 +67,7 @@ public class WindowDisplaySections extends JFrame {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							WindowSection frame = new WindowSection(dataBase);
+							WindowSection frame = new WindowSection(dataBase, null);
 							frame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -83,15 +83,36 @@ public class WindowDisplaySections extends JFrame {
 		btnEdytuj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				int row_nr = table.getSelectedRow();
+				final String row[] = new String[2];
+				
+				
+				for(int i = 0; i < row.length; i++)
+				{
+					row[i] = table.getValueAt(row_nr, i).toString();
+				}
+					
+				WindowSection frame = new WindowSection(dataBase, row);
+				frame.setVisible(true);
+				
+				
+				
 				
 			}
 		});
 		
-		lblUsuTrenera = new JLabel("Usu\u0144 trenera:");
+		btnUsunSekcje = new JLabel("Usu\u0144 sekcj\u0119:");
 		
 		comboBox = new JComboBox();
 		
 		button = new JButton("Usu\u0144");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nazwa = comboBox.getSelectedItem().toString();
+				dataBase.deleteSection(nazwa);
+				refreshTable();
+			}
+		});
 		
 		button_1 = new JButton("Od\u015Bwie\u017C");
 		button_1.addActionListener(new ActionListener() {
@@ -120,7 +141,7 @@ public class WindowDisplaySections extends JFrame {
 		 					.addPreferredGap(ComponentPlacement.UNRELATED)
 		 					.addComponent(txtNazwisko, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
 		 					.addPreferredGap(ComponentPlacement.UNRELATED)
-		 					.addComponent(lblUsuTrenera)
+		 					.addComponent(btnUsunSekcje)
 		 					.addPreferredGap(ComponentPlacement.RELATED)
 		 					.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
 		 					.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -138,7 +159,7 @@ public class WindowDisplaySections extends JFrame {
 		 			.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 		 				.addComponent(btnNowaSekcja)
 		 				.addComponent(btnEdytuj)
-		 				.addComponent(lblUsuTrenera)
+		 				.addComponent(btnUsunSekcje)
 		 				.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		 				.addComponent(button)
 		 				.addComponent(button_1)
@@ -192,9 +213,10 @@ public class WindowDisplaySections extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		
 		comboBox.removeAllItems();
+		
 		for (Vector v : rows)
 		{
-			comboBox.addItem(v.get(0) + " " + v.get(1) );
+			comboBox.addItem(v.get(0));
 		}
 		
 		sortowanie(table);
@@ -288,7 +310,7 @@ public class WindowDisplaySections extends JFrame {
 
 		comboBox.removeAllItems();
 		for (Vector v : rows) {
-			comboBox.addItem(v.get(0) + " " + v.get(1));
+			comboBox.addItem(v.get(0));
 		}
 		sortowanie(table);
 	}
@@ -298,7 +320,7 @@ public class WindowDisplaySections extends JFrame {
 	private JTable table;
 	private JButton btnNowaSekcja;
 	private JButton btnEdytuj;
-	private JLabel lblUsuTrenera;
+	private JLabel btnUsunSekcje;
 	GroupLayout gl_contentPane;
 	JScrollPane scrollPane;
 	private JComboBox comboBox;

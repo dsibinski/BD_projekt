@@ -107,11 +107,9 @@ public class WindowDisplayTrainers extends JFrame {
 				{
 					row[i] = table.getValueAt(row_nr, i).toString();
 				}
-				
-				
-						
-							WindowTrainer frame = new WindowTrainer(dataBase, row);
-							frame.setVisible(true);
+					
+				WindowTrainer frame = new WindowTrainer(dataBase, row);
+				frame.setVisible(true);
 						
 				
 			}
@@ -244,6 +242,8 @@ public class WindowDisplayTrainers extends JFrame {
 		
 	
 		scrollPane.setViewportView(table);
+		
+		
 		contentPane.setLayout(gl_contentPane);
 		comboBox.removeAllItems();
 		

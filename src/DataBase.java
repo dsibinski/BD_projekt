@@ -88,27 +88,17 @@ public class DataBase {
 
 	}
 
-	protected void NewSection() throws SQLException {
+	protected void NewSection(String nazwa, String imie, String nazwisko){
 
-		Scanner input3 = new Scanner(System.in);
-		String nazwa, trener;
-		nazwa = "";
-		trener = "";
-		System.out.print("\nNazwa sekcji: ");
-		if (input3.hasNext())
-			nazwa = input3.nextLine();
-
-		System.out.print("\nID Trenera: ");
-		if (input3.hasNext())
-			trener = input3.nextLine();
+		
+		
 
 		Statement statement = null;
 
-		String selectTableSQL = "INSERT INTO STARTWROCLAW.Sekcje (id_sekcji, nazwa, trener) VALUES (SEKCJE_ID_SEQ.NEXTVAL,"
-				+ "'" + nazwa + "'" + "," + trener + ")";
+		String selectTableSQL = "INSERT INTO STARTWROCLAW.Sekcje (id_sekcji, nazwa, trener) VALUES (SEKCJE_ID_SEQ.NEXTVAL, "
+				+ "'" + nazwa + "'" + ", (SELECT ID_TRENERA FROM TRENERZY WHERE IMIE = '" + imie + "' AND NAZWISKO = '" + nazwisko + "'))";  
 
-		Console cons = null;
-		cons = System.console(); // console object for reading the password
+		
 
 		try {
 
@@ -122,7 +112,7 @@ public class DataBase {
 				ResultSet rs = statement.executeQuery(selectTableSQL);
 
 				System.out.println("Zapytanie wykonane poprawnie.");
-				// input3.close();
+				
 			}
 
 		} catch (SQLException e) {
@@ -132,7 +122,12 @@ public class DataBase {
 		} finally {
 
 			if (statement != null) {
-				statement.close();
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 		}
@@ -419,6 +414,55 @@ public class DataBase {
 
 	}
 	
+protected  void updateSections(String nazwa, String nazwa_old, String imie, String nazwisko) {
+		
+
+		Statement statement = null;
+
+	 String selectTableSQL = "UPDATE STARTWROCLAW.SEKCJE SET NAZWA = '" + nazwa + "', TRENER = (SELECT ID_TRENERA FROM TRENERZY WHERE IMIE = '"
+	 		+ imie + "' AND NAZWISKO = '" + nazwisko + "') WHERE ID_SEKCJI = (SELECT ID_SEKCJI FROM SEKCJE WHERE NAZWA = '" + nazwa_old + "')";
+			 
+	
+
+		try {
+
+			if (connected) {
+
+				statement = dbConnection.createStatement();
+
+				System.out.println(selectTableSQL);
+
+				// execute select SQL statement
+				statement.executeQuery(selectTableSQL);
+
+			
+
+				System.out.println("Zapytanie wykonane poprawnie.");
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		} finally {
+
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		
+
+	}
+
+
+	
 	protected boolean deleteTrainer(String _name, String _surname)
 	{
 		String name = _name;
@@ -472,6 +516,119 @@ public class DataBase {
 		return true;
 		
 	}
+	
+	protected boolean deleteSection(String nazwa)
+	{
+		
+		Statement statement = null;
+
+		String selectTableSQL = "DELETE FROM STARTWROCLAW.SEKCJE WHERE NAZWA = '" + nazwa + "'";
+
+		try {
+
+			if (connected) {
+
+				statement = dbConnection.createStatement();
+
+				System.out.println(selectTableSQL);
+
+				// execute select SQL statement
+				ResultSet rs = statement.executeQuery(selectTableSQL);
+
+				
+
+				System.out.println("Zapytanie wykonane poprawnie.");
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+			if(e.getMessage().contains("ORA-02292")) 
+
+			{
+				return false;
+				
+							
+			}
+
+		} finally {
+
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		return true;
+		
+	}
+	
+	
+	
+	protected Vector<Vector> getTrainersNames() {
+		Vector<Vector> rows = new Vector<Vector>();
+
+		Statement statement = null;
+
+		String selectTableSQL = "SELECT IMIE, NAZWISKO FROM STARTWROCLAW.TRENERZY ORDER BY NAZWISKO";
+
+		try {
+
+			if (connected) {
+
+				statement = dbConnection.createStatement();
+
+				System.out.println(selectTableSQL);
+
+				// execute select SQL statement
+				ResultSet rs = statement.executeQuery(selectTableSQL);
+
+				while (rs.next()) {
+
+					Vector<String> columns = new Vector<String>();
+
+					
+					
+					String trainer_name = rs.getString("IMIE");
+					String trainer_surname = rs.getString("NAZWISKO");
+					
+					String trainer_data = trainer_name + " " + trainer_surname;
+					
+					columns.add(trainer_data);
+					rows.add(columns);
+
+				}
+
+				System.out.println("Zapytanie wykonane poprawnie.");
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		} finally {
+
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		return rows;
+
+	}
+	
+	
 	
 
 }

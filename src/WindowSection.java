@@ -15,12 +15,17 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class WindowSection extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtNazwaSekcji;
+	private static boolean filled;
 
 	/**
 	 * Launch the application.
@@ -30,13 +35,23 @@ public class WindowSection extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public WindowSection(DataBase _dataBase) {
+	public WindowSection(DataBase _dataBase, String[] row) {
+		if (row != null)
+			filled = true;
+		else
+			filled = false;
+		
+		if (row != null)
+			nazwa_old = row[0];
+		
+		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		dataBase = _dataBase;
+		
 		
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(WindowSection.class.getResource("/Resources/logo.png")));
 		setTitle("Dodawanie sekcji");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 316, 206);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -49,11 +64,43 @@ public class WindowSection extends JFrame {
 		
 		JLabel lblTrener = new JLabel("Wybierz trenera:");
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
+		comboBox.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				refreshComboBox();
+			}
+		});
 		
 		JButton btnDodajTrenera = new JButton("Nowy trener");
+		btnDodajTrenera.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				WindowTrainer frame = new WindowTrainer(dataBase, null);
+				frame.setVisible(true);
+			}
+		});
 		
-		JButton btnDodajSekcje = new JButton("Dodaj sekcj\u0119");
+		JButton btnDodajSekcje;
+		btnDodajSekcje = new JButton("Dodaj");
+		if (filled)
+			btnDodajSekcje = new JButton("Edytuj");
+		
+		
+		btnDodajSekcje.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String nazwa_sekcji = txtNazwaSekcji.getText();
+				String trener = comboBox.getSelectedItem().toString();
+				String[] trener_data = trener.split(" ");
+				String trener_imie, trener_nazwisko;
+				trener_imie = trener_data[0];
+				trener_nazwisko = trener_data[1];
+				
+				if(!filled) dataBase.NewSection(nazwa_sekcji, trener_imie, trener_nazwisko);
+				else dataBase.updateSections(nazwa_sekcji, nazwa_old, trener_imie, trener_nazwisko);
+				dispose();
+				
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -89,16 +136,36 @@ public class WindowSection extends JFrame {
 					.addComponent(btnDodajSekcje, GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
 		);
 		
-		Vector<Vector> values = dataBase.getSectionsList();
+		Vector<Vector> values = dataBase.getTrainersNames();
 		
 		// adds trainers' data to comboBox selections
 		for (Vector v : values)
 		{
-			comboBox.addItem(v.elementAt(1));
+			comboBox.addItem(v.elementAt(0).toString());
+			
+		}
+		
+		if(filled)
+		{
+			txtNazwaSekcji.setText(row[0]);
+			comboBox.setSelectedItem(row[1]);
 		}
 		
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	void refreshComboBox()
+	{
+		comboBox.removeAllItems();
+		Vector<Vector> values = dataBase.getTrainersNames();
+		
+		// adds trainers' data to comboBox selections
+		for (Vector v : values)
+		{
+			comboBox.addItem(v.elementAt(0).toString());
+		}
+	}
+	JComboBox comboBox;
 	DataBase dataBase;
+	String nazwa_old;
 }
